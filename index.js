@@ -128,7 +128,8 @@ var listMixin = {
 
 var itemMixin = {
   componentDidMount: function() {
-    this.getDOMNode().addEventListener('mousedown', this.moveSetup);
+    var ref = this.dragRef || this;
+    (this.refs[ref] || this).getDOMNode().addEventListener('mousedown', this.moveSetup);
     this.setMovable(true);
   },
   insertPlaceHolder: function(el) {
