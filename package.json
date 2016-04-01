@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hulufei/react-sortable-mixin.git"
+    "url": "git+https://github.com/hulufei/react-sortable-mixin.git"
   },
   "keywords": [
     "react",
@@ -20,10 +20,15 @@
     "move",
     "react-component"
   ],
-  "author": "hulufei",
+  "author": {
+    "name": "hulufei"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hulufei/react-sortable-mixin/issues"
+  },
+  "dependencies": {
+    "react": "^0.14.5"
   },
   "devDependencies": {
     "karma-chai-plugins": "~0.2.3",
@@ -36,5 +41,13 @@
     "karma-webpack": "~1.3.1",
     "jsx-loader": "~0.12.2",
     "simulant": "~0.1.3"
-  }
+  },
+  "gitHead": "6f7d9ec92038baa83cef42584f07a9ae99759852",
+  "readme": "react-sortable-mixin\r\n====================\r\n\r\nA mixin for React to creat a sortable(drag and move) List Component.\r\n[Demo](http://hulufei.github.io/react-sortable-mixin/demo/)\r\n\r\n## Install\r\n\r\n`npm install --save-dev react-sortable-mixin`\r\n\r\n## Usage\r\n\r\n- Define a List Component use `ListMixin` contains Item Components use `ItemMixin`.\r\n- List Component required state `items` to set items' data.\r\n- Item Component required props:\r\n  [`key`](http://facebook.github.io/react/docs/reconciliation.html) / `index` / [`movableProps`](http://facebook.github.io/react/docs/transferring-props.html).\r\n\r\nThat's it!\r\n\r\nExample code:\r\n\r\n```javascript\r\nvar React = require('react');\r\nvar sortable = require('react-sortable-mixin');\r\n\r\n// Item Component use `ItemMixin`\r\nvar Item = React.createClass({\r\n  mixins: [sortable.ItemMixin],\r\n  render: function() {\r\n    return <li>item {this.props.item}</li>;\r\n  }\r\n});\r\n\r\n// List Component use `ListMixin`\r\nvar List = React.createClass({\r\n  mixins: [sortable.ListMixin],\r\n  componentDidMount: function() {\r\n    // Set items' data, key name `items` required\r\n    this.setState({ items: this.props.items });\r\n  },\r\n  render: function() {\r\n    var items = this.state.items.map(function(item, i) {\r\n      // Required props in Item (key/index/movableProps)\r\n      return <Item key={item} item={item} index={i} {...this.movableProps}/>;\r\n    }, this);\r\n\r\n    return <ul>{items}</ul>;\r\n  }\r\n});\r\n\r\nmodule.exports = List;\r\n```\r\n\r\n## Hook Events (On List)\r\n\r\n- `onMoveBefore`: after `mousedown` before `mousemove`\r\n- `onResorted`: if items not resorted (drop at same position) will not trigger\r\n- `onMoveEnd`\r\n",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/hulufei/react-sortable-mixin#readme",
+  "_id": "react-sortable-mixin@0.0.1",
+  "_shasum": "000cf2dfe186343c0522e2253bf02d2f5d1bcb78",
+  "_from": "git+https://github.com/parauchf/react-sortable-mixin.git",
+  "_resolved": "git+https://github.com/parauchf/react-sortable-mixin.git#6f7d9ec92038baa83cef42584f07a9ae99759852"
 }
