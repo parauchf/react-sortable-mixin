@@ -1,3 +1,4 @@
+var reactDOM = require("react-dom");
 
 
 var listMixin = {
@@ -16,6 +17,7 @@ var listMixin = {
   // movedComponent: component to move
   // moveElemEvent: mouse event object triggered on moveElem
   bindMove: function(movedComponent, moveElemEvent) {
+    var moveElem = reactDOM.findDOMNode(movedComponent)
       , placeholder = movedComponent.placeholder
       , parentPosition = moveElem.parentElement.getBoundingClientRect()
       , moveElemPosition = moveElem.getBoundingClientRect()
@@ -98,11 +100,13 @@ var listMixin = {
     // To make handler removable, DO NOT `.bind(this)` here, because
     // > A new function reference is created after .bind() is called!
     if (movedComponent.movable) {
+      reactDOM.findDOMNode(this).addEventListener('mousemove', this.moveHandler);
     }
     // Bind to `document` to be more robust
     document.addEventListener('mouseup', this.mouseupHandler);
   },
   unbindMove: function() {
+    reactDOM.findDOMNode(this).removeEventListener('mousemove', this.moveHandler);
     document.removeEventListener('mouseup', this.mouseupHandler);
     this.intersectItem = null;
     if (this.onMoveEnd) {
@@ -127,6 +131,7 @@ var listMixin = {
 
 var itemMixin = {
   componentDidMount: function() {
+    reactDOM.findDOMNode(this.refs[this.dragRef] || this).addEventListener('mousedown', this.moveSetup);
     this.setMovable(true);
   },
   insertPlaceHolder: function(el) {
@@ -139,10 +144,12 @@ var itemMixin = {
                           newIndex > elIndex ? el : el.nextSibling);
   },
   createPlaceHolder: function(el) {
+    el = el || reactDOM.findDOMNode(this);
     this.placeholder = el.cloneNode(true);
     this.placeholder.style.opacity = '0';
   },
   moveSetup: function(e) {
+    var el = reactDOM.findDOMNode(this);
     this.createPlaceHolder(el);
 
     this.props.bindMove(this, e);
